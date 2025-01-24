@@ -1,0 +1,77 @@
+/* Main container to center content vertically and horizontally */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Title styling */
+.loading-title {
+  font-size: 2rem;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+/* Thinking animation container */
+.thinking-animation {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Loader circle */
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+  margin-bottom: 20px;
+}
+
+/* Spin animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Completed message container */
+.completed {
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%; /* Allow content to have some space around */
+  max-width: 400px; /* Set a maximum width for better layout */
+}
+
+/* Title for completed state */
+.completed h2 {
+  font-size: 1.5rem;
+  color: #28a745;
+}
+
+/* Paragraph for completed state */
+.completed p {
+  font-size: 1rem;
+  color: #155724;
+}
+
+/* Forest SVG styling */
+.forest-svg {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px; /* Space between the image and loader */
+  animation: rotate 2s infinite linear; /* Optional rotation animation */
+}
+
+/* Rotation animation for forest SVG */
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

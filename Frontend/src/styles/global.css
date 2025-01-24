@@ -1,0 +1,6 @@
+@import "tailwindcss";
+/* Global Reset */
+
+body {
+  background-color: white;
+}

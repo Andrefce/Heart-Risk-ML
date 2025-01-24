@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* Loading Page Styles */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .content {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+  }
+  
+  .heart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .realistic-heart {
+    width: 120px;
+    height: auto;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+  
+  /* Add heartbeat animation */
+  @keyframes heartbeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  .welcome-text {
+    font-size: 1.75rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .text-container .btn {
+    padding: 12px 20px;
+    background-color: #10b981;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .text-container .btn:hover {
+    background-color: #059669;
+  }
+  
