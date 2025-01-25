@@ -17,13 +17,16 @@ const Loading: React.FC = () => {
     // Send answers to the backend after navigating to the Loading page
     const sendData = async () => {
       try {
-        const response = await fetch("https://bedbug-thorough-terminally.ngrok-free.app", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(answers), // Send answers to the backend
-        });
+        const response = await fetch(
+          "https://bedbug-thorough-terminally.ngrok-free.app/api/predict",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(answers), // Send answers to the backend
+          }
+        );
 
         if (response.ok) {
           const data = await response.json(); // Get the prediction from the backend
@@ -74,7 +77,9 @@ const Loading: React.FC = () => {
               </svg>
             </div>
           </div>
-          <p className="processing-text">Processing your health assessment...</p>
+          <p className="processing-text">
+            Processing your health assessment...
+          </p>
         </div>
       ) : (
         <div className="completed">

@@ -10,9 +10,9 @@ interface QuestionType {
 }
 
 const QuestionnairePage: React.FC = () => {
-  const [answers, setAnswers] = useState<{ [key: string]: string | string[] }>(
-    {}
-  );
+  const [answers, setAnswers] = useState<{
+    [key: string]: string | string[] | number;
+  }>({});
   const [missingQuestions, setMissingQuestions] = useState<string[]>([]);
 
   const questions: QuestionType[] = [
@@ -20,7 +20,7 @@ const QuestionnairePage: React.FC = () => {
       id: "General_Health",
       text: "What is your general health?",
       type: "radio",
-      options: ["Poor", "Very Good", "Good", "Fair", "Excellent"],
+      options: ["Poor", "Fair", "Good", "Very Good", "Excellent"],
     },
     {
       id: "Checkup",
@@ -130,15 +130,35 @@ const QuestionnairePage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Initialize empty answers
-    const initialAnswers: { [key: string]: string | string[] } = {};
+    // Initialize random answers
+    const initialAnswers: { [key: string]: string | string[] | number } = {};
     questions.forEach((question) => {
-      initialAnswers[question.id] = ""; // Set all answers to empty
+      if (question.type === "radio" && question.options) {
+        // Randomly select an option for radio questions
+        initialAnswers[question.id] =
+          question.options[Math.floor(Math.random() * question.options.length)];
+      } else if (question.type === "number") {
+        if (question.id === "BMI") {
+          // Generate a random float for BMI (realistic range: 18.5 to 40)
+          initialAnswers[question.id] = parseFloat(
+            (18.5 + Math.random() * (40 - 18.5)).toFixed(1)
+          );
+        } else {
+          // Generate a random integer for other numeric fields
+          initialAnswers[question.id] = Math.floor(Math.random() * 100); // Adjust range as needed
+        }
+      } else {
+        // Set empty string for text and checkbox questions
+        initialAnswers[question.id] = "";
+      }
     });
     setAnswers(initialAnswers);
   }, []);
 
-  const handleAnswerChange = (questionId: string, value: string | string[]) => {
+  const handleAnswerChange = (
+    questionId: string,
+    value: string | string[] | number
+  ) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: value,
@@ -147,35 +167,40 @@ const QuestionnairePage: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // Prevent form from reloading the page
-  
+
     // Check for unanswered questions
     const unanswered = questions
-      .filter((question) => !answers[question.id] || answers[question.id] === "")
+      .filter(
+        (question) => !answers[question.id] || answers[question.id] === ""
+      )
       .map((question) => question.id);
-  
+
     if (unanswered.length > 0) {
       setMissingQuestions(unanswered); // Show missing questions if any
     } else {
       setMissingQuestions([]); // Clear missing questions
       console.log("Submitted Answers:", answers);
-  
+
       try {
         // Navigate to the Loading page first
         navigate("/loading", { state: { answers } }); // Pass answers to the Loading page
-  
+
         // Send answers to the backend
-        const response = await fetch("https://bedbug-thorough-terminally.ngrok-free.app", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify(answers), // Send answers as JSON body
-        });
-  
+        const response = await fetch(
+          "https://bedbug-thorough-terminally.ngrok-free.app/api/predict",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Ensure correct content type
+            },
+            body: JSON.stringify(answers), // Send answers as JSON body
+          }
+        );
+
         if (response.ok) {
           const data = await response.json(); // Handle successful response
           console.log("Backend Response:", data);
-  
+
           // The Loading page will handle navigation to the Result page
         } else {
           const errorText = await response.text();
@@ -246,11 +271,19 @@ const QuestionnairePage: React.FC = () => {
                           id={`${question.id}-${option}`}
                           value={option}
                           checked={
-                            answers[question.id]?.includes(option) || false
+                            // Ensure answers[question.id] is treated as an array of strings
+                            (Array.isArray(answers[question.id])
+                              ? (answers[question.id] as string[])
+                              : []
+                            ).includes(option)
                           }
                           onChange={() => {
-                            const currentAnswers =
-                              (answers[question.id] as string[]) || [];
+                            // Ensure answers[question.id] is treated as an array of strings
+                            const currentAnswers = Array.isArray(
+                              answers[question.id]
+                            )
+                              ? (answers[question.id] as string[])
+                              : [];
                             const newAnswers = currentAnswers.includes(option)
                               ? currentAnswers.filter((o) => o !== option)
                               : [...currentAnswers, option];
@@ -281,10 +314,16 @@ const QuestionnairePage: React.FC = () => {
                     <input
                       type="number"
                       min="0"
+                      step={question.id === "BMI" ? "0.1" : "1"} // Allow decimals only for BMI
                       placeholder="Enter a number..."
                       value={answers[question.id] || ""}
                       onChange={(e) =>
-                        handleAnswerChange(question.id, e.target.value)
+                        handleAnswerChange(
+                          question.id,
+                          question.id === "BMI"
+                            ? parseFloat(e.target.value) // Parse as float for BMI
+                            : parseInt(e.target.value, 10) // Parse as integer for others
+                        )
                       }
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
                     />
