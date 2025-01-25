@@ -186,7 +186,7 @@ const QuestionnairePage: React.FC = () => {
         navigate("/loading", { state: { answers } }); // Pass answers to the Loading page
 
         // Send answers to the backend
-        const response = await fetch("https://bedbug-thorough-terminally.ngrok-free.app", {
+        const response = await fetch("https://bedbug-thorough-terminally.ngrok-free.app/api/predict", {
           method: "POST",
           headers: {
             "Content-Type": "application/json", // Ensure correct content type

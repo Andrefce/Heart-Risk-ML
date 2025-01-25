@@ -17,7 +17,7 @@ const Loading: React.FC = () => {
     // Send answers to the backend after navigating to the Loading page
     const sendData = async () => {
       try {
-        const response = await fetch("https://bedbug-thorough-terminally.ngrok-free.app", {
+        const response = await fetch("https://bedbug-thorough-terminally.ngrok-free.app/api/predict", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
