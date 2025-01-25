@@ -17,16 +17,13 @@ const Loading: React.FC = () => {
     // Send answers to the backend after navigating to the Loading page
     const sendData = async () => {
       try {
-        const response = await fetch(
-          "https://bedbug-thorough-terminally.ngrok-free.app/api/predict",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(answers), // Send answers to the backend
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(answers), // Send answers to the backend
+        });
 
         if (response.ok) {
           const data = await response.json(); // Get the prediction from the backend
