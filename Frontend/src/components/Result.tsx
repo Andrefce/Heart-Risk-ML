@@ -47,7 +47,7 @@ const ResultPage: React.FC = () => {
   const { prediction } = (location.state as LocationState) || { prediction: [] };
 
   // Extract the first element from the prediction array
-  const predictionValue = prediction[0];
+  const predictionValue = 0;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
