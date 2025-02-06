@@ -41,7 +41,7 @@ const ResultPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Extract the first element from the prediction array
+  // Set the prediction value to 0 for testing
   const predictionValue = 0;
 
   return (
