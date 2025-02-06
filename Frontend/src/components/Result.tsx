@@ -37,10 +37,6 @@ const SuccessIcon = () => (
   </svg>
 );
 
-interface LocationState {
-  prediction: number[]; // Prediction is an array of numbers
-}
-
 const ResultPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
