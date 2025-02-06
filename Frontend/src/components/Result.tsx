@@ -44,7 +44,6 @@ interface LocationState {
 const ResultPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { prediction } = (location.state as LocationState) || { prediction: [] };
 
   // Extract the first element from the prediction array
   const predictionValue = 0;
