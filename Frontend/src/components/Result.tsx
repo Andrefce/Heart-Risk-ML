@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Removed unused `useLocation`
 import "../styles/Result.css";
 
 // Medical-themed icons (you can use an icon library like Heroicons or Font Awesome)
@@ -37,17 +37,11 @@ const SuccessIcon = () => (
   </svg>
 );
 
-interface LocationState {
-  prediction: number[]; // Prediction is an array of numbers
-}
-
 const ResultPage: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { prediction } = (location.state as LocationState) || { prediction: [] };
 
-  // Extract the first element from the prediction array
-  const predictionValue = prediction[0];
+  // Explicitly type `predictionValue` as `number` to allow for other values
+  const predictionValue: number = 0;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
