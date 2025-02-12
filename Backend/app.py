@@ -35,6 +35,10 @@ categorical_mappings = {
     "Smoking_History": {"No": 0, "Yes": 1}
 }
 
+@app.route('/')
+def home():
+    return 'Predict'
+
 @app.route("/api/predict", methods=["GET", "POST", "OPTIONS"])
 def predict():
     if request.method == "OPTIONS":
